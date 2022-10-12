@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './configuration/configuration';
 import { config } from 'dotenv';
+import { FormsModule } from './modules/forms/forms.module';
 config();
 
 @Module({
@@ -13,8 +12,9 @@ config();
       isGlobal: true,
       load: [configuration],
     }),
+    FormsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
