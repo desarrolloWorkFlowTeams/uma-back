@@ -10,7 +10,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
   });
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
   app.use(json({ limit: '60mb' }));
   app.enableVersioning({
     defaultVersion: '1',
@@ -19,11 +25,11 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   const config = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Documentation course API Krensi')
-    .setDescription('Documentation course API Krensi')
+    .setTitle('Documentation course API UMA')
+    .setDescription('Documentation course API UMA')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-documentation', app, document);
+  SwaggerModule.setup('docs', app, document);
   await app
     .listen(process.env.API_PORT)
     .then(() =>
