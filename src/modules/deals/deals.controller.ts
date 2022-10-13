@@ -27,6 +27,11 @@ export class DealsController {
     return this.dealsService.findAll();
   }
 
+  @Get('deals-and-contacts')
+  findAllContactAndDeal() {
+    return this.dealsService.findAllDealsAndContacts();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.dealsService.findOne(+id);

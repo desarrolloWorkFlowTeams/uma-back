@@ -12,12 +12,11 @@ export class ContactsService {
   }
 
   async findAll() {
-    const deals = await this.httpService.axiosRef.get(
-      `${this.webhookB24}/crm.contact.list`,
+    const contacts = await this.httpService.axiosRef.get(
+      `${this.webhookB24}/crm.contact.fields`,
     );
-    if (deals.data) {
-      const keys = Object.keys(deals.data.result[0]);
-      return keys;
+    if (contacts.data) {
+      return contacts.data.result;
     } else {
       return [];
     }

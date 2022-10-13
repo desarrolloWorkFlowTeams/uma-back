@@ -15,11 +15,26 @@ export class DealsService {
 
   async findAll() {
     const deals = await this.httpService.axiosRef.get(
-      `${this.webhookB24}/crm.deal.list`,
+      `${this.webhookB24}/crm.deal.fields`,
     );
     if (deals.data) {
-      const keys = Object.keys(deals.data.result[0]);
-      return keys;
+      return deals.data.result;
+    } else {
+      return [];
+    }
+  }
+
+  async findAllDealsAndContacts() {
+    const deals = await this.findAll();
+    let contacts = {};
+    const req = await this.httpService.axiosRef.get(
+      `${this.webhookB24}/crm.deal.fields`,
+    );
+    if (req.data) {
+      contacts = { ...req.data.result };
+    }
+    if (contacts && deals) {
+      return { contacts, deals };
     } else {
       return [];
     }
