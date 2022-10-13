@@ -18,7 +18,22 @@ export class FormsService {
       `${this.jotFormApi}/user/forms?apikey=${process.env.APIKEY_JOTFORMS}`,
     );
     if (forms.data.responseCode === 200) {
-      return forms.data.content;
+      const content: any[] = forms.data.content;
+      return content.map((form, index) => {
+        let newForm = form;
+        if (index % 2 === 0) {
+          newForm = {
+            ...newForm,
+            itsRelated: true,
+          };
+        } else {
+          newForm = {
+            ...newForm,
+            itsRelated: false,
+          };
+        }
+        return newForm;
+      });
     } else {
       return [];
     }
