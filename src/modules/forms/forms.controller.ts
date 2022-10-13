@@ -10,8 +10,10 @@ import {
 import { FormsService } from './forms.service';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('forms')
+@ApiTags('Forms')
 export class FormsController {
   constructor(private readonly formsService: FormsService) {}
 
@@ -23,6 +25,11 @@ export class FormsController {
   @Get()
   findAll() {
     return this.formsService.findAll();
+  }
+
+  @Get(':id/questions')
+  findOneWitchQuestions(@Param('id') id: string) {
+    return this.formsService.findOneWitchQuestions(+id);
   }
 
   @Get(':id')

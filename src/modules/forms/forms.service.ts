@@ -5,6 +5,8 @@ import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class FormsService {
+  private readonly jotFormApi = process.env.JOTFORM_API_URL;
+
   constructor(private readonly httpService: HttpService) {}
 
   create(createFormDto: CreateFormDto) {
@@ -13,7 +15,7 @@ export class FormsService {
 
   async findAll() {
     const forms = await this.httpService.axiosRef.get(
-      `https://api.jotform.com/user/forms?apikey=${process.env.APIKEY_JOTFORMS}`,
+      `${this.jotFormApi}/user/forms?apikey=${process.env.APIKEY_JOTFORMS}`,
     );
     if (forms.data.responseCode === 200) {
       return forms.data.content;
@@ -22,8 +24,27 @@ export class FormsService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} form`;
+  async findOne(id: number) {
+    const form = await this.httpService.axiosRef.get(
+      `${this.jotFormApi}/form/${id}?apikey=${process.env.APIKEY_JOTFORMS}`,
+    );
+    if (form.data.responseCode === 200) {
+      return form.data.content;
+    } else {
+      return [];
+    }
+  }
+
+  async findOneWitchQuestions(id: number) {
+    const form = await this.httpService.axiosRef.get(
+      `https://api.jotform.com/form/${id}/questions`,
+      { headers: { APIKEY: process.env.APIKEY_JOTFORMS } },
+    );
+    if (form.data.responseCode === 200) {
+      return form.data.content;
+    } else {
+      return [];
+    }
   }
 
   update(id: number, updateFormDto: UpdateFormDto) {
