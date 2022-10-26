@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Redirect, Res } from '@nestjs/common';
+import { Controller, Get, Param, Query, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -17,7 +17,7 @@ export class AuthController {
   async getToken(@Query() query, @Res() res) {
     const id = await this.authService.getToken(query);
     if (id) {
-      return res.redirect('/v1/auth/front/' + id);
+      return res.redirect(`/v1/auth/front/${id}`);
     }
   }
 
