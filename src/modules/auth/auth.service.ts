@@ -23,17 +23,27 @@ export class AuthService {
   }
 
   async getToken(query) {
-    // const { code } = query;
+    const client = query.domain.split('.')[0].replace('https://', '');
+    const config = this.config.get(client);
     this.logger.debug('query => ', { query });
     const response = await this.httpService.axiosRef.get(
-      `${process.env.TOKEN_URL}/?client_id=${process.env.CLIENT_ID}&grant_type=authorization_code&client_secret=${process.env.CLIENT_SECRET}&code=${query.code}`,
+      `${process.env.TOKEN_URL}/?client_id=${config.clientId}&grant_type=authorization_code&client_secret=${config.secretKey}&code=${query.code}`,
     );
     this.logger.debug('res.headers => ', response.data);
     if (!response.data)
       throw new HttpException(`${response.statusText}`, response.status);
-    const result = await this.tokenModel.create(response.data);
+    const result = await this.tokenModel.findOne({
+      user_id: response.data.user_id,
+    });
 
-    return result.id;
+    if (result) {
+      const { id } = result;
+      this.tokenModel.updateOne({ id }, response.data);
+      return result.id;
+    } else {
+      const created = await this.createToken(response.data);
+      return created.id;
+    }
   }
 
   async redirectToApp(id) {
@@ -42,6 +52,14 @@ export class AuthService {
       .split('.')[0]
       .replace('https://', '');
     const config = this.config.get(client);
-    return `${config.appUrl}?access_token=${tokenObj.access_token}`;
+    return `${config.appUrl}/#/auth/authorization?access_token=${tokenObj.access_token}`;
+  }
+
+  async createToken(objToken: TokenDocument) {
+    return await this.tokenModel.create(objToken);
+  }
+
+  updateToken(objToken: TokenDocument) {
+    return this.tokenModel.updateOne({ id: objToken.id }, objToken);
   }
 }

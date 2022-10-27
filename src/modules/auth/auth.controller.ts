@@ -8,9 +8,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Get('/code/:client')
-  async getCode(@Param() client, @Res() res) {
+  async getCode(@Param() client) {
     const url = await this.authService.getCode(client);
-    return res.redirect(`${url}`);
+    return { url };
   }
 
   @Get('/token')

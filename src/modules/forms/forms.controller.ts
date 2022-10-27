@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { FormsService } from './forms.service';
 import { CreateFormDto } from './dto/create-form.dto';
@@ -23,18 +24,18 @@ export class FormsController {
   }
 
   @Get()
-  findAll() {
-    return this.formsService.findAll();
+  findAll(@Query() query) {
+    return this.formsService.findAll(query);
   }
 
   @Get(':id/questions')
-  findOneWitchQuestions(@Param('id') id: string) {
-    return this.formsService.findOneWitchQuestions(+id);
+  findOneWitchQuestions(@Param('id') id: string, @Query() query) {
+    return this.formsService.findOneWitchQuestions(+id, query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.formsService.findOne(+id);
+  findOne(@Param('id') id: string, @Query() query) {
+    return this.formsService.findOne(+id, query);
   }
 
   @Patch(':id')
