@@ -51,6 +51,7 @@ export class FormsService {
     const { client } = query;
     this.logger.debug('query => ', query);
     const config = this.config.get(client);
+    this.logger.debug('config.webhookJotform =>', config.webhookJotform);
     const form = await this.httpService.axiosRef.get(
       `${this.jotFormApi}/form/${id}?apikey=${config.webhookJotform}`,
     );
@@ -65,10 +66,11 @@ export class FormsService {
     const { client } = query;
     this.logger.debug('query => ', query);
     const config = this.config.get(client);
-    const APIKEY = config.webhookJotform;
+    this.logger.debug('config =>', config);
+    this.logger.debug('config =>', config);
     const form = await this.httpService.axiosRef.get(
-      `https://api.jotform.com/form/${id}/questions`,
-      { headers: { APIKEY } },
+      `https://api.jotform.com/form/${id}/questions?apikey=${config.webhookJotform}`,
+      // { headers: { APIKEY: config.webhookJotform } },
     );
     if (form.data.responseCode === 200) {
       return form.data.content;

@@ -25,8 +25,8 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   const config = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Documentation course API UMA')
-    .setDescription('Documentation course API UMA')
+    .setTitle('Documentation API UMA Jotform integration')
+    .setDescription('Documentation API UMA Jotform integration')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

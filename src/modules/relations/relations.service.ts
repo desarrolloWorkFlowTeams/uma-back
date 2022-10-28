@@ -5,7 +5,7 @@ import { UpdateRelationDto } from './dto/update-relation.dto';
 @Injectable()
 export class RelationsService {
   create(createRelationDto: CreateRelationDto) {
-    return 'This action adds a new relation';
+    return createRelationDto;
   }
 
   findAll() {
