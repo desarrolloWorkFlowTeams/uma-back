@@ -9,11 +9,13 @@ import { InjectModel } from '@nestjs/mongoose';
 export class AuthService {
   tokens: any[] = [];
   logger = new Logger();
+
   constructor(
     @InjectModel(Token.name) private readonly tokenModel: Model<TokenDocument>,
     private readonly httpService: HttpService,
     private readonly config: ConfigService,
   ) {}
+
   async getCode(data: { client: string }) {
     const { client } = data;
     const config = this.config.get(client);
@@ -32,6 +34,7 @@ export class AuthService {
     this.logger.debug('res.headers => ', response.data);
     if (!response.data)
       throw new HttpException(`${response.statusText}`, response.status);
+
     const result = await this.tokenModel.findOne({
       user_id: response.data.user_id,
     });

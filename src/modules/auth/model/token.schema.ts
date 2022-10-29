@@ -15,31 +15,31 @@ export class Token extends Model {
   @Prop({ required: true })
   expires: number;
 
-  @Prop()
+  @Prop({ required: true })
   expires_in: number;
 
-  @Prop({ default: 'user' })
+  @Prop({ required: true })
   scope: string;
 
-  @Prop()
+  @Prop({ required: true })
   domain: string;
 
-  @Prop()
+  @Prop({ required: true })
   server_endpoint: string;
 
-  @Prop()
+  @Prop({ required: true })
   status: string;
 
-  @Prop()
+  @Prop({ required: true })
   client_endpoint: string;
 
-  @Prop()
+  @Prop({ required: true })
   member_id: string;
 
-  @Prop()
+  @Prop({ required: true })
   user_id: number;
 
-  @Prop()
+  @Prop({ required: true })
   refresh_token: string;
 
   @Prop({

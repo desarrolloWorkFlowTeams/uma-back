@@ -28,7 +28,7 @@ export class DealsService {
     const deals = await this.findAll();
     let contacts = {};
     const req = await this.httpService.axiosRef.get(
-      `${this.webhookB24}/crm.deal.fields`,
+      `${this.webhookB24}/crm.contact.fields`,
     );
     if (req.data) {
       contacts = { ...req.data.result };
