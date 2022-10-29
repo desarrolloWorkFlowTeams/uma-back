@@ -4,7 +4,6 @@ import { ConfigService } from '@nestjs/config';
 import { Model } from 'mongoose';
 import { Token, TokenDocument } from './model/token.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { TokenDto } from './dtos/token.dto';
 
 @Injectable()
 export class AuthService {

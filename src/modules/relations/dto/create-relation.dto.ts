@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateRelationDto {
   @ApiProperty()
@@ -8,8 +8,8 @@ export class CreateRelationDto {
   client: string;
 
   @ApiProperty()
-  @IsNumber()
-  formId: number;
+  @IsString()
+  formId: string;
 
   @ApiProperty()
   @IsString()
@@ -18,5 +18,5 @@ export class CreateRelationDto {
 
   @ApiProperty()
   @IsArray()
-  relations: [string[]];
+  relations: any[];
 }
